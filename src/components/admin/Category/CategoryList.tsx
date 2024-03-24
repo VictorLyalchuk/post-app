@@ -48,89 +48,88 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CategoryList = () => {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [formParams, setFormParams] = useState<ICategorySearch>({
-    page: Number(searchParams.get('page')) || 1,
-    size: Number(searchParams.get('size')) || 10
-  });
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [formParams, setFormParams] = useState<ICategorySearch>({
+        page: Number(searchParams.get('page')) || 1,
+        size: Number(searchParams.get('size')) || 10
+    });
 
-  const [data, setData] = useState<IGetCategories>({
-    content: [],
-    totalPages: 0,
-    totalCount: 0,
-    number: 0
-  });
-  const { content, totalPages } = data;
+    const [data, setData] = useState<IGetCategories>({
+        content: [],
+        totalPages: 0,
+        totalCount: 0,
+        number: 0
+    });
+    const { content, totalPages } = data;
 
-  const loadCategories = async () => {
-    try {
-      const resp = await axios.get(`${APP_ENV.BASE_URL}/api/categories/search`, {
-        params: {
-          ...formParams,
-          page: formParams.page - 1
+    const loadCategories = async () => {
+        try {
+            const resp = await axios.get(`${APP_ENV.BASE_URL}/api/categories/search`, {
+                params: {
+                    ...formParams,
+                    page: formParams.page - 1
+                }
+            });
+            setData(resp.data);
+        } catch (error) {
+            console.error("Error loading categories", error);
         }
-      });
-      setData(resp.data);
-    } catch (error) {
-      console.error("Error loading categories", error);
+    };
+
+    const handleChange = (_event: React.ChangeEvent<unknown>, page: number) => {
+        findTagss({ ...formParams, page });
+    };
+    const findTagss = (model: ICategorySearch) => {
+        setFormParams(model);
+        updateSearchParams(model);
     }
-  };
 
-  const handleChange = (_event: React.ChangeEvent<unknown>, page: number) => {
-    findTagss({ ...formParams, page });
-  };
-  const findTagss = (model: ICategorySearch) => {
-    setFormParams(model);
-    updateSearchParams(model);
-  }
+    const updateSearchParams = (params: ICategorySearch) => {
+        for (const [key, value] of Object.entries(params)) {
+            if (value !== undefined && value !== 0) {
+                searchParams.set(key, value);
+            } else {
+                searchParams.delete(key);
+            }
+        }
+        setSearchParams(searchParams);
+    };
 
-  const updateSearchParams = (params: ICategorySearch) => {
-    for (const [key, value] of Object.entries(params)) {
-      if (value !== undefined && value !== 0) {
-        searchParams.set(key, value);
-      } else {
-        searchParams.delete(key);
-      }
+    useEffect(() => {
+        loadCategories();
+    }, [formParams]);
+
+    const handleClose = () => {
+        navigate('/');
     }
-    setSearchParams(searchParams);
-  };
 
-  useEffect(() => {
-    loadCategories();
-  }, [formParams]);
-
-  const handleClose = () => {
-    navigate('/');
-  }
-
-  const handleCreateCategory = () => {
-    navigate('/category/create');
-  }
-
-  const handleEdit = (id: number) => {
-    navigate(`/category/edit/${id}`);
-  }
-
-  const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this category?')) {
-      try {
-        await axios.delete(`${APP_ENV.BASE_URL}/api/categories/${id}`);
-        setData({ ...data, content: content.filter(x => x.id != id) });
-      } catch (error) {
-        throw new Error(`Error: ${error}`);
-      }
+    const handleCreateCategory = () => {
+        navigate('/category/create');
     }
-  };
 
-  return (
-    <Box sx={{ width: '100%', mt: 3 }}>
-      <Container >
-        <Card sx={{ mb: 3, display: 'flex', flexDirection: 'column', height: '100%', transition: 'box-shadow 0.3s', '&:hover': { boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)' } }}>
+    const handleEdit = (id: number) => {
+        navigate(`/category/edit/${id}`);
+    }
 
-          <CardHeader title="Categories list" />
-          <Divider />
-          <TableContainer component={Paper} sx={{ borderRadius: 0 }} >
+    const handleDelete = async (id: number) => {
+        if (window.confirm('Are you sure you want to delete this category?')) {
+            try {
+                await axios.delete(`${APP_ENV.BASE_URL}/api/categories/${id}`);
+                setData({ ...data, content: content.filter(x => x.id != id) });
+            } catch (error) {
+                throw new Error(`Error: ${error}`);
+            }
+        }
+    };
+
+    return (
+        <Box sx={{ width: '100%', mt: 3 }}>
+            <Container >
+                <Card sx={{ mb: 3, display: 'flex', flexDirection: 'column', height: '100%', transition: 'box-shadow 0.3s', '&:hover': { boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)' } }}>
+                    <CardHeader title="Categories list" />
+                    <Divider />
+                    <TableContainer component={Paper} sx={{ borderRadius: 0 }} >
                         <Table aria-label="customized table">
                             <TableHead>
                                 <TableRow>
@@ -186,51 +185,51 @@ const CategoryList = () => {
                         </Table>
                     </TableContainer>
 
-          <Divider />
-          <CardActions sx={{ justifyContent: 'flex-end' }}>
-            <Button
-              color="inherit"
-              endIcon={<ClearIcon />}
-              size="small"
-              variant="text"
-              onClick={handleClose}
-              sx={{
-                '&:hover': {
-                  bgcolor: '#bbdefb',
-                },
-              }}
-            >
-              Close
-            </Button>
-          </CardActions>
-        </Card>
+                    {/* <Divider /> */}
+                    <CardActions sx={{ justifyContent: 'flex-end' }}>
+                        <Button
+                            color="inherit"
+                            endIcon={<ClearIcon />}
+                            size="small"
+                            variant="text"
+                            onClick={handleClose}
+                            sx={{
+                                '&:hover': {
+                                    bgcolor: '#bbdefb',
+                                },
+                            }}
+                        >
+                            Close
+                        </Button>
+                    </CardActions>
+                </Card>
 
-        <Box display="flex" justifyContent="center" sx={{
-          p: 3,
-          borderRadius: 2,
-          bgcolor: 'background.default',
-          gridTemplateColumns: { md: '1fr 1fr' },
-          backgroundColor: "#eeeeee",
+                <Box display="flex" justifyContent="center" sx={{
+                    p: 3,
+                    borderRadius: 2,
+                    bgcolor: 'background.default',
+                    gridTemplateColumns: { md: '1fr 1fr' },
+                    backgroundColor: "#eeeeee",
 
-        }}>
-          <Card variant="outlined" sx={{
-            p: 2,
-            borderRadius: 2,
-            bgcolor: 'background.default',
-            gridTemplateColumns: { md: '1fr 1fr' },
-            backgroundColor: "#eeeeee",
+                }}>
+                    <Card variant="outlined" sx={{
+                        p: 2,
+                        borderRadius: 2,
+                        bgcolor: 'background.default',
+                        gridTemplateColumns: { md: '1fr 1fr' },
+                        backgroundColor: "#eeeeee",
 
-          }}>
-            <Stack spacing={2}>
-              <Pagination
-                count={totalPages} page={formParams.page} onChange={handleChange} color="primary"
-              />
-            </Stack>
-          </Card>
+                    }}>
+                        <Stack spacing={2}>
+                            <Pagination
+                                count={totalPages} page={formParams.page} onChange={handleChange} color="primary"
+                            />
+                        </Stack>
+                    </Card>
+                </Box>
+            </Container>
         </Box>
-      </Container>
-    </Box>
-  );
+    );
 }
 
 export default CategoryList;

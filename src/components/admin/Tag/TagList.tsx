@@ -5,10 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import { useEffect, useState } from 'react';
 import { APP_ENV } from '../../../env';
 import axios from 'axios';
@@ -21,6 +17,35 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { ITagSearch } from '../../../interfaces/Tag/ITagSearch';
 import { IGetTags } from '../../../interfaces/Tag/IGetTags';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: blue[500],
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+
+  '&:last-child td, &:last-child th': {
+    border: 0,
+
+  },
+}));
 
 const TagList = () => {
   const navigate = useNavigate();
@@ -105,54 +130,63 @@ const TagList = () => {
 
           <CardHeader title="Tags list" />
           <Divider />
-          <List>
-            {content.map((tag, index) => (
-              <ListItem divider={index < content.length - 1} key={tag.id} sx={{ '&:hover': { bgcolor: '#bbdefb', }, }}
-              >
-                <ListItemAvatar  >
-                  <Avatar aria-label="recipe" sx={{
-                    bgcolor: blue[500], '&:hover': {
-                      bgcolor: 'white', color: 'black',
-                    },
-                  }}>
-                    {tag.id}
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={tag.name}
-                  primaryTypographyProps={{ variant: 'subtitle1' }}
-                  secondaryTypographyProps={{ variant: 'body2' }}
-                />
-                <IconButton edge="end" onClick={handleCreateTag} sx={{
-                  '&:hover': {
-                    color: 'white',
-                  }, marginRight: '3px'
-                }}>
-                  <AddCircleOutlineIcon />
-                </IconButton>
-                <IconButton edge="end" 
-                  onClick={() => handleEdit(tag.id)}
-                  sx={{
-                  '&:hover': {
-                    color: 'white',
-                  }, marginRight: '3px'
-                }}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  edge="end"
-                  onClick={() => handleDelete(tag.id)}
-                  sx={{
-                    '&:hover': {
-                      color: 'white',
-                    },
-                  }}>
-                  <DeleteOutlineIcon />
-                </IconButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
+
+          <TableContainer component={Paper} sx={{ borderRadius: 0 }} >
+            <Table aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="left">ID</StyledTableCell>
+                  <StyledTableCell align="left">Name</StyledTableCell>
+                  <StyledTableCell align="right">Action</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {content.map((tag) => (
+                  <StyledTableRow key={tag.name} sx={{ '&:hover': { bgcolor: '#bbdefb', }, }}>
+                    <StyledTableCell align="left">
+                      <Avatar aria-label="recipe" sx={{ bgcolor: blue[500], '&:hover': { bgcolor: 'white', color: 'black', }, }}>
+                        {tag.id}
+                      </Avatar></StyledTableCell>
+                    <StyledTableCell align="left" component="th" scope="row">
+                      {tag.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <IconButton edge="end" onClick={handleCreateTag} sx={{
+                        '&:hover': {
+                          color: 'white',
+                        }, marginRight: '3px'
+                      }}>
+                        <AddCircleOutlineIcon />
+                      </IconButton>
+                      <IconButton edge="end"
+                        onClick={() => handleEdit(tag.id)}
+                        sx={{
+                          '&:hover': {
+                            color: 'white',
+                          }, marginRight: '3px'
+                        }}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        onClick={() => handleDelete(tag.id)}
+                        sx={{
+                          '&:hover': {
+                            color: 'white',
+                          },
+                        }}>
+                        <DeleteOutlineIcon />
+                      </IconButton>
+
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+
+          {/* <Divider /> */}
           <CardActions sx={{ justifyContent: 'flex-end' }}>
             <Button
               color="inherit"
