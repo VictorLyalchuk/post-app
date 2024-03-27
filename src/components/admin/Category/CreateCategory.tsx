@@ -52,7 +52,7 @@ const CreateCategory = () => {
       await axios.post(`${APP_ENV.BASE_URL}/api/categories`, formData);
       navigate('/category');
     } catch (error) {
-      console.error("create tag error:", error);
+      console.error("create category error:", error);
     }
   };
   const handleClose = () => {

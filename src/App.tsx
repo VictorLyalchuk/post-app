@@ -12,6 +12,8 @@ import CategoryList from "./components/admin/Category/CategoryList";
 import CreateCategory from "./components/admin/Category/CreateCategory";
 import EditCategory from "./components/admin/Category/EditCategory";
 import PostList from "./components/admin/Post/PostList";
+import CreatePost from "./components/admin/Post/CreatePost";
+import EditPost from "./components/admin/Post/EditPost";
 
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
 
           <Route path={"post"}>
             <Route index element={<PostList />} />
+            <Route path="create" element={<CreatePost />} />
+            <Route path="edit/:id" element={<EditPost />} />
           </Route>
         </Routes>
       </ThemeProvider>

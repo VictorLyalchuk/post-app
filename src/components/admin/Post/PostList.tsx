@@ -26,6 +26,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import NotImage150 from '../../../assets/NotImage150.png'
+import StoreIcon from '@mui/icons-material/Store';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -113,6 +115,10 @@ const PostList = () => {
         navigate(`/post/edit/${id}`);
     }
 
+    const handleDetails = (id: number) => {
+        navigate(`/postDetails/${id}`);
+    }
+
     const handleDelete = async (id: number) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
@@ -136,8 +142,10 @@ const PostList = () => {
                                 <TableRow>
                                     <StyledTableCell align="left">ID</StyledTableCell>
                                     <StyledTableCell align="left">Title</StyledTableCell>
+                                    <StyledTableCell align="left">Images</StyledTableCell>
                                     <StyledTableCell align="left">Description</StyledTableCell>
                                     <StyledTableCell align="left">Category</StyledTableCell>
+                                    <StyledTableCell align="left">Tags</StyledTableCell>
                                     <StyledTableCell align="left">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -151,9 +159,25 @@ const PostList = () => {
                                         <StyledTableCell component="th" scope="row">
                                             {post.title}
                                         </StyledTableCell>
+                                        <StyledTableCell align="left"><img src={post.files[0] ? `${APP_ENV.BASE_URL}/uploading/150_${post.files[0]}` : NotImage150}></img></StyledTableCell>
                                         <StyledTableCell align="left">{post.description}</StyledTableCell>
                                         <StyledTableCell align="left">{post.category_name}</StyledTableCell>
+                                        <StyledTableCell align="left">{post.tags.map(tag => (
+                                            <div key={tag.id}>{tag.name}</div>
+                                        ))}</StyledTableCell>
+
+
                                         <StyledTableCell align="left">
+                                            <IconButton
+                                                edge="end"
+                                                onClick={() => handleDetails(post.id)}
+                                                sx={{
+                                                    '&:hover': {
+                                                        color: 'white',
+                                                    },
+                                                }}>
+                                                <StoreIcon />
+                                            </IconButton>
                                             <IconButton edge="end" onClick={handleCreatePost} sx={{
                                                 '&:hover': {
                                                     color: 'white',
@@ -180,7 +204,6 @@ const PostList = () => {
                                                 }}>
                                                 <DeleteOutlineIcon />
                                             </IconButton>
-
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}

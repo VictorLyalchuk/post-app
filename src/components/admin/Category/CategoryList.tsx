@@ -136,7 +136,7 @@ const CategoryList = () => {
                                     <StyledTableCell align="left">ID</StyledTableCell>
                                     <StyledTableCell align="left">Name</StyledTableCell>
                                     <StyledTableCell align="left">Description</StyledTableCell>
-                                    <StyledTableCell align="left">Action</StyledTableCell>
+                                    <StyledTableCell align="right">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -150,7 +150,7 @@ const CategoryList = () => {
                                             {category.name}
                                         </StyledTableCell>
                                         <StyledTableCell align="left">{category.description}</StyledTableCell>
-                                        <StyledTableCell align="left">
+                                        <StyledTableCell align="right">
                                             <IconButton edge="end" onClick={handleCreateCategory} sx={{
                                                 '&:hover': {
                                                     color: 'white',

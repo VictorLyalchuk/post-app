@@ -4,7 +4,7 @@ import HomePageCard from './HomePageCard';
 import axios from 'axios';
 import { APP_ENV } from '../../env';
 import { IPostSearch } from '../../interfaces/Post/IPostSearch';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { IGetPosts } from '../../interfaces/Post/IGetPosts';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -14,7 +14,6 @@ import { ITag } from '../../interfaces/Tag/ITag';
 import { ICategory } from '../../interfaces/Category/ICategory';
 
 const HomePageList = () => {
-    const navigate = useNavigate();
     const [tags, setTags] = useState<ITag[]>([]);
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -114,15 +113,7 @@ const HomePageList = () => {
             findPosts({ ...formParams, tag: tag.name, page });
         }
     };
-    const handleTagList = () => {
-        navigate('/tag');
-    }
-    const handleCategoryList = () => {
-        navigate('/category');
-    }
-    const handlePostList = () => {
-        navigate('/post');
-    }
+
     return (
         <>
             <Container maxWidth="lg"
@@ -131,7 +122,7 @@ const HomePageList = () => {
                     {/* Sidebar */}
                     <Grid item xs={12} sm={2} >
                         <Card sx={{ flexDirection: 'column', mt: 3, transition: 'box-shadow 0.3s', '&:hover': { boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)' } }}>
-                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', mt: 1 }}>
+                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper',  pb:0}}>
                                 <ListItemText primary="Tags"
                                     primaryTypographyProps={{
                                         variant: 'h5',
@@ -161,63 +152,7 @@ const HomePageList = () => {
                                 ))}
                             </List>
                         </Card>
-                        <Card sx={{ flexDirection: 'column', mt: 3, transition: 'box-shadow 0.3s', '&:hover': { boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)' } }}>
-                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', mt: 1 }}>
-                            <ListItem
-                                    button
-                                    onClick={() => handlePostList()}
-                                    sx={{
-                                        '&:hover': {
-                                            bgcolor: '#bbdefb',
-                                        },
-                                        "&.Mui-selected": {
-                                            bgcolor: '#bbdefb',
-                                            '& .MuiListItemText-secondary': {
-                                                fontWeight: 'bold',
-                                            }
-                                        }
-                                    }}
-                                >
-                                    <ListItemText primary="Post Panel" />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => handleTagList()}
-                                    sx={{
-                                        '&:hover': {
-                                            bgcolor: '#bbdefb',
-                                        },
-                                        "&.Mui-selected": {
-                                            bgcolor: '#bbdefb',
-                                            '& .MuiListItemText-secondary': {
-                                                fontWeight: 'bold',
-                                            }
-                                        }
-                                    }}
-                                >
-                                    <ListItemText primary="Tag Panel" />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => handleCategoryList()}
-                                    sx={{
-                                        '&:hover': {
-                                            bgcolor: '#bbdefb',
-                                        },
-                                        "&.Mui-selected": {
-                                            bgcolor: '#bbdefb',
-                                            '& .MuiListItemText-secondary': {
-                                                fontWeight: 'bold',
-                                            }
-                                        }
-                                    }}
-                                >
-                                    <ListItemText primary="Category Panel" />
-                                </ListItem>
-                            </List>
-                        </Card>
                     </Grid>
-
 
                     {/* Контент */}
                     <Grid item xs={12} sm={8}>
@@ -232,7 +167,7 @@ const HomePageList = () => {
                     {/* Sidebar */}
                     <Grid item xs={12} sm={2} >
                         <Card sx={{ flexDirection: 'column', mt: 3, transition: 'box-shadow 0.3s', '&:hover': { boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)' } }}>
-                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', mt: 1 }}>
+                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', mt: 1, pb:0 }}>
                                 <ListItemText primary="Categories"
                                     primaryTypographyProps={{
                                         variant: 'h5',
