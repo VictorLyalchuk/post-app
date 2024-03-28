@@ -6,10 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import CategoryIcon from '@mui/icons-material/Category';
 import TagIcon from '@mui/icons-material/Tag';
 import StoreIcon from '@mui/icons-material/Store';
+import { useDispatch } from "react-redux";
+import { logout } from '../../store/accounts/accounts.slice';
+import { useAppSelector } from '../../hooks/redux';
 
 const Header = () => {
     const [profileAnchorEl, setProfileAnchorEl] = React.useState<null | HTMLElement>(null);
     const [adminAnchorEl, setAdminAnchorEl] = React.useState<null | HTMLElement>(null);
+    const dispatch = useDispatch();
+    const { isLogin, user } = useAppSelector(state => state.account);
 
     const profileOpen = Boolean(profileAnchorEl);
     const adminOpen = Boolean(adminAnchorEl);
@@ -44,6 +49,16 @@ const Header = () => {
         navigate('/post');
     };
 
+    const handleLogin = () => {
+        navigate("/login");
+    }
+    const handleLogout = (() => {
+        dispatch(logout());
+    });
+
+    const handleRegister = () => {
+        navigate("/register");
+    }
     return (
         <>
             <AppBar color="primary">
@@ -69,71 +84,77 @@ const Header = () => {
                                     'aria-labelledby': 'profile-button',
                                 }}
                             >
-                                <MenuItem onClick={handleProfileClose}>
-                                    <ListItemIcon>
-                                        <AccountCircle fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Login" />
-                                </MenuItem>
+                                {!isLogin ? (
+                                    <>
+                                        <MenuItem onClick={handleLogin}>
+                                            <ListItemIcon>
+                                                <AccountCircle fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Login" />
+                                        </MenuItem>
 
-                                <MenuItem onClick={handleProfileClose}>
-                                    <ListItemIcon>
-                                        <PersonAdd fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Registration" />
-                                </MenuItem>
-
-                                <MenuItem onClick={handleProfileClose}>
-                                    <ListItemIcon>
-                                        <Logout fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Logout" />
-                                </MenuItem>
+                                        <MenuItem onClick={handleRegister}>
+                                            <ListItemIcon>
+                                                <PersonAdd fontSize="small" />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Registration" />
+                                        </MenuItem>
+                                    </>
+                                ) : (
+                                    <MenuItem onClick={handleLogout}>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Logout" />
+                                    </MenuItem>
+                                )}
                             </Menu>
                         </div>
                         <Button onClick={handleHome} color="inherit">Posts</Button>
-                        <div>
-                            <Button
-                                id="admin-button"
-                                aria-controls={adminOpen ? 'admin-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={adminOpen ? 'true' : undefined}
-                                onClick={handleAdminClick}
-                                color="inherit"
-                            >
-                                Admin Panel
-                            </Button>
-                            <Menu
-                                id="admin-menu"
-                                anchorEl={adminAnchorEl}
-                                open={adminOpen}
-                                onClose={handleAdminClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'admin-button',
-                                }}
-                            >
-                                <MenuItem onClick={handlePostList}>
-                                    <ListItemIcon>
-                                        <StoreIcon color="primary" fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Post Panel" />
-                                </MenuItem>
+                        {user && user.roles[0] === 'admin' && (
+                            <div>
+                                <Button
+                                    id="admin-button"
+                                    aria-controls={adminOpen ? 'admin-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={adminOpen ? 'true' : undefined}
+                                    onClick={handleAdminClick}
+                                    color="inherit"
+                                >
+                                    Admin Panel
+                                </Button>
+                                <Menu
+                                    id="admin-menu"
+                                    anchorEl={adminAnchorEl}
+                                    open={adminOpen}
+                                    onClose={handleAdminClose}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'admin-button',
+                                    }}
+                                >
+                                    <MenuItem onClick={handlePostList}>
+                                        <ListItemIcon>
+                                            <StoreIcon color="primary" fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Post Panel" />
+                                    </MenuItem>
 
-                                <MenuItem onClick={handleCategoryList}>
-                                    <ListItemIcon>
-                                        <CategoryIcon color="primary" fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Category Panel" />
-                                </MenuItem>
+                                    <MenuItem onClick={handleCategoryList}>
+                                        <ListItemIcon>
+                                            <CategoryIcon color="primary" fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Category Panel" />
+                                    </MenuItem>
 
-                                <MenuItem onClick={handleTagList}>
-                                    <ListItemIcon>
-                                        <TagIcon color="primary" fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Tag Panel" />
-                                </MenuItem>
-                            </Menu>
-                        </div>
+                                    <MenuItem onClick={handleTagList}>
+                                        <ListItemIcon>
+                                            <TagIcon color="primary" fontSize="small" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Tag Panel" />
+                                    </MenuItem>
+                                </Menu>
+                            </div>
+                        )}
                     </Toolbar>
                 </Container>
             </AppBar>

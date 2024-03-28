@@ -7,7 +7,7 @@ import { APP_ENV } from '../../env';
 import { Avatar, Box, Card, Container, ImageList, List, Typography } from '@mui/material';
 import { Divider } from '@material-ui/core';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IPost } from '../../interfaces/Post/IPost';
+import { IPost } from '../../interfaces/post/IPost';
 import CardContent from '@mui/material/CardContent';
 import ShareIcon from '@mui/icons-material/Share';
 import { red } from '@mui/material/colors';

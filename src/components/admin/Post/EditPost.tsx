@@ -13,12 +13,12 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 import TextField from '@mui/material/TextField';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ICategory } from '../../../interfaces/Category/ICategory';
-import { ITag } from '../../../interfaces/Tag/ITag';
+import { ICategory } from '../../../interfaces/category/ICategory';
+import { ITag } from '../../../interfaces/tag/ITag';
 import { PlusOutlined } from '@ant-design/icons';
 import { Upload, UploadProps } from 'antd';
 import { UploadFile } from 'antd/es/upload';
-import { IPostEdit, IPostEditPhoto } from '../../../interfaces/Post/IPostEdit';
+import { IPostEdit, IPostEditPhoto } from '../../../interfaces/post/IPostEdit';
 
 
 

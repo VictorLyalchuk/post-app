@@ -13,7 +13,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 import TextField from '@mui/material/TextField';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ICategory } from '../../../interfaces/Category/ICategory';
+import { ICategory } from '../../../interfaces/category/ICategory';
 
 
 const useStyles = makeStyles((theme: Theme) =>

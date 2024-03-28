@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import NotImage from '../../assets/imagenot.png'
 import Typography from '@mui/material/Typography';
-import { IPost } from '../../interfaces/Post/IPost';
+import { IPost } from '../../interfaces/post/IPost';
 import Container from '@mui/material/Container';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';

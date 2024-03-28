@@ -3,15 +3,15 @@ import { Grid } from '@material-ui/core';
 import HomePageCard from './HomePageCard';
 import axios from 'axios';
 import { APP_ENV } from '../../env';
-import { IPostSearch } from '../../interfaces/Post/IPostSearch';
+import { IPostSearch } from '../../interfaces/post/IPostSearch';
 import { useSearchParams } from 'react-router-dom';
-import { IGetPosts } from '../../interfaces/Post/IGetPosts';
+import { IGetPosts } from '../../interfaces/post/IGetPosts';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Box, Card, Container, Divider } from '@mui/material';
 import { List, ListItem, ListItemText } from '@mui/material';
-import { ITag } from '../../interfaces/Tag/ITag';
-import { ICategory } from '../../interfaces/Category/ICategory';
+import { ITag } from '../../interfaces/tag/ITag';
+import { ICategory } from '../../interfaces/category/ICategory';
 
 const HomePageList = () => {
     const [tags, setTags] = useState<ITag[]>([]);

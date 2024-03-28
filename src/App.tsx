@@ -14,6 +14,9 @@ import EditCategory from "./components/admin/Category/EditCategory";
 import PostList from "./components/admin/Post/PostList";
 import CreatePost from "./components/admin/Post/CreatePost";
 import EditPost from "./components/admin/Post/EditPost";
+import LoginPage from "./components/auth/login/LoginPage";
+import RegisterPage from "./components/auth/Register/RegisterPage";
+
 
 
 function App() {
@@ -26,6 +29,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePageList />} />
           <Route path="postDetails/:id" element={<PostDetails />} />
+          <Route path={"/login"} element={<LoginPage />} />
+          <Route path={"/register"} element={<RegisterPage />} />
+
 
           <Route path={"tag"}>
             <Route index element={<TagList />} />
