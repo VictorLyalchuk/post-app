@@ -13,28 +13,32 @@ import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import { red } from '@mui/material/colors';
 import { APP_ENV } from "../../env";
-import { Button, Divider, Rating } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const HomePageCard: React.FC<{ post: IPost }> = ({ post }) => {
   const { id, title, category_name, dateCreated, description, files, tags } = post;
   const navigate = useNavigate();
-  const [value, setValue] = useState<number | null>(0);
-  const [isHovered, setIsHovered] = useState(false); 
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleShare = () => {
+    const urlToShare = `localhost:5173/postDetails/${id}`;
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(urlToShare)}&text=${encodeURIComponent(title)}`, '_blank');
+  };
   const handleDetails = () => {
     navigate(`/postDetails/${id}`)
   }
   const imageStyle = {
-    transition: 'transform 0.3s', 
+    transition: 'transform 0.3s',
   };
-  
+
   const imageHoverStyle = {
-    transform: 'scale(1.1)', 
+    transform: 'scale(1.1)',
   };
   return (
     <Box sx={{ width: '100%', mt: 3 }}>
@@ -47,10 +51,11 @@ const HomePageCard: React.FC<{ post: IPost }> = ({ post }) => {
               </Avatar>
             }
             action={
-              <IconButton aria-label="share" sx={{
+              <IconButton onClick={handleShare} aria-label="share" sx={{
                 '&:hover': {
-                  bgcolor: '#bbdefb', 
-                  },}}>
+                  bgcolor: '#bbdefb',
+                },
+              }} >
                 <ShareIcon />
               </IconButton>
             }
@@ -66,16 +71,16 @@ const HomePageCard: React.FC<{ post: IPost }> = ({ post }) => {
           </CardActions>
 
           <ImageList cols={1}>
-            <ImageListItem key={id} sx={{ padding: '0', display: 'flex', justifyContent: 'center',  overflow: 'hidden' }}>
+            <ImageListItem key={id} sx={{ padding: '0', display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
               <img
                 srcSet={files[0] ? `${APP_ENV.BASE_URL}/uploading/1200_${files[0]}` : NotImage}
                 src={files[0] ? `${APP_ENV.BASE_URL}/uploading/1200_${files[0]}` : NotImage}
                 alt={title}
                 loading="lazy"
-                style={{ ...imageStyle, ...(isHovered && imageHoverStyle) }} 
-                onMouseEnter={() => setIsHovered(true)} 
+                style={{ ...imageStyle, ...(isHovered && imageHoverStyle) }}
+                onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                                />
+              />
               <ImageListItemBar
                 title={title}
                 subtitle={new Date(dateCreated).toDateString()}
@@ -105,19 +110,11 @@ const HomePageCard: React.FC<{ post: IPost }> = ({ post }) => {
             ))}
           </CardActions>
 
-          <CardActions disableSpacing>
-            <Rating
-              name="simple-controlled"
-              value={value}
-              onChange={(_event, newValue) => {
-                setValue(newValue);
-              }}
-            />
-
-          </CardActions>
-
           <Divider />
-          <CardActions sx={{ justifyContent: 'flex-end' }}>
+          <CardActions sx={{ justifyContent: 'space-between' }}>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
             <Button
               color="inherit"
               size="small"
@@ -125,11 +122,13 @@ const HomePageCard: React.FC<{ post: IPost }> = ({ post }) => {
               onClick={handleDetails}
               sx={{
                 '&:hover': {
-                  bgcolor: '#bbdefb', 
-                  },}}
+                  bgcolor: '#bbdefb',
+                },
+              }}
             >
               Details
             </Button>
+
           </CardActions>
         </Card>
       </Container>

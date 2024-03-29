@@ -64,13 +64,13 @@ const EditCategory = () => {
     formData.append('description', categoryDescription);
     try {
       await axios.put(`${APP_ENV.BASE_URL}/api/categories/${id}`, formData);
-      navigate('/category');
+      navigate('/admin/category');
     } catch (error) {
       console.error("create tag error:", error);
     }
   };
   const handleClose = () => {
-    navigate('/category');
+    navigate('/admin/category');
   }
 
 

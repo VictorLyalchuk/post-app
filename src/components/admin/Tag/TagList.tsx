@@ -105,11 +105,11 @@ const TagList = () => {
   }
 
   const handleCreateTag = () => {
-    navigate('/tag/create');
+    navigate('/admin/tag/create');
   }
 
   const handleEdit = (id: number) => {
-    navigate(`/tag/edit/${id}`);
+    navigate(`/admin/tag/edit/${id}`);
   }
 
   const handleDelete = async (id: number) => {

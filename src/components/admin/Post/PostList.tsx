@@ -108,11 +108,11 @@ const PostList = () => {
     }
 
     const handleCreatePost = () => {
-        navigate('/post/create');
+        navigate('/admin/post/create');
     }
 
     const handleEdit = (id: number) => {
-        navigate(`/post/edit/${id}`);
+        navigate(`/admin/post/edit/${id}`);
     }
 
     const handleDetails = (id: number) => {

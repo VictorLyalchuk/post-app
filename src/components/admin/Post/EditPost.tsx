@@ -150,13 +150,13 @@ const EditPost = () => {
                     "Content-Type": "application/json"
                 }
             });
-            navigate('/post');
+            navigate('/admin/post');
         } catch (error) {
             console.error("create post error:", error);
         }
     };
     const handleClose = () => {
-        navigate('/post');
+        navigate('/admin/post');
     }
 
     const handleTagChange = (selectedValues: number[]) => {

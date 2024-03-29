@@ -60,13 +60,13 @@ const EditTag = () => {
     formData.append('name', tagName);
     try {
       await axios.put(`${APP_ENV.BASE_URL}/api/tags/${id}`, formData);
-      navigate('/tag');
+      navigate('/admin/tag');
     } catch (error) {
       console.error("create tag error:", error);
     }
   };
   const handleClose = () => {
-    navigate('/tag');
+    navigate('/admin/tag');
   }
 
   return (

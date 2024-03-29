@@ -40,13 +40,13 @@ const Header = () => {
     };
 
     const handleTagList = () => {
-        navigate('/tag');
+        navigate('/admin/tag');
     };
     const handleCategoryList = () => {
-        navigate('/category');
+        navigate('/admin/category');
     };
     const handlePostList = () => {
-        navigate('/post');
+        navigate('/admin/post');
     };
 
     const handleLogin = () => {

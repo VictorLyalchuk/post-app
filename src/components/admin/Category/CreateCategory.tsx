@@ -50,13 +50,13 @@ const CreateCategory = () => {
     formData.append('description', categoryDescription);
     try {
       await axios.post(`${APP_ENV.BASE_URL}/api/categories`, formData);
-      navigate('/category');
+      navigate('/admin/category');
     } catch (error) {
       console.error("create category error:", error);
     }
   };
   const handleClose = () => {
-    navigate('/category');
+    navigate('/admin/category');
   }
 
 

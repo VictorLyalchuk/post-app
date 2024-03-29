@@ -47,13 +47,13 @@ const CreateTag = () => {
     formData.append('name', tagName);
     try {
       await axios.post(`${APP_ENV.BASE_URL}/api/tags`, formData);
-      navigate('/tag');
+      navigate('/admin/tag');
     } catch (error) {
       console.error("create tag error:", error);
     }
   };
   const handleClose = () => {
-    navigate('/tag');
+    navigate('/admin/tag');
   }
 
 

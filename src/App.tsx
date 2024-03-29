@@ -16,39 +16,37 @@ import CreatePost from "./components/admin/Post/CreatePost";
 import EditPost from "./components/admin/Post/EditPost";
 import LoginPage from "./components/auth/login/LoginPage";
 import RegisterPage from "./components/auth/Register/RegisterPage";
-
-
+import AdminLayout from "./components/admin/AdminLayout";
 
 function App() {
-
   return (
     <>
       <ThemeProvider theme={theme}>
-
         <Header />
         <Routes>
           <Route path="/" element={<HomePageList />} />
           <Route path="postDetails/:id" element={<PostDetails />} />
-          <Route path={"/login"} element={<LoginPage />} />
-          <Route path={"/register"} element={<RegisterPage />} />
+          <Route path={"login"} element={<LoginPage />} />
+          <Route path={"register"} element={<RegisterPage />} />
 
+          <Route path={"/admin"} element={<AdminLayout />}>
+            <Route path={"tag"}>
+              <Route index element={<TagList />} />
+              <Route path="create" element={<CreateTag />} />
+              <Route path="edit/:id" element={<EditTag />} />
+            </Route>
 
-          <Route path={"tag"}>
-            <Route index element={<TagList />} />
-            <Route path="create" element={<CreateTag />} />
-            <Route path="edit/:id" element={<EditTag />} />
-          </Route>
+            <Route path={"category"}>
+              <Route index element={<CategoryList />} />
+              <Route path="create" element={<CreateCategory />} />
+              <Route path="edit/:id" element={<EditCategory />} />
+            </Route>
 
-          <Route path={"category"}>
-            <Route index element={<CategoryList />} />
-            <Route path="create" element={<CreateCategory />} />
-            <Route path="edit/:id" element={<EditCategory />} />
-          </Route>
-
-          <Route path={"post"}>
-            <Route index element={<PostList />} />
-            <Route path="create" element={<CreatePost />} />
-            <Route path="edit/:id" element={<EditPost />} />
+            <Route path={"post"}>
+              <Route index element={<PostList />} />
+              <Route path="create" element={<CreatePost />} />
+              <Route path="edit/:id" element={<EditPost />} />
+            </Route>
           </Route>
         </Routes>
       </ThemeProvider>

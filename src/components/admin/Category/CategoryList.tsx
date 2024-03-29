@@ -105,11 +105,11 @@ const CategoryList = () => {
     }
 
     const handleCreateCategory = () => {
-        navigate('/category/create');
+        navigate('/admin/category/create');
     }
 
     const handleEdit = (id: number) => {
-        navigate(`/category/edit/${id}`);
+        navigate(`/admin/category/edit/${id}`);
     }
 
     const handleDelete = async (id: number) => {
