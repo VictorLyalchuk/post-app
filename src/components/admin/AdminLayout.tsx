@@ -22,7 +22,6 @@ const AdminLayout = () => {
     return (
         <>
             {isAdmin && <Outlet />}
-
         </>
     );
 };

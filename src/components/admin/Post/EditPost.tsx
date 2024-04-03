@@ -62,17 +62,17 @@ const EditPost = () => {
 
     useEffect(() => {
         axios.get(`${APP_ENV.BASE_URL}/api/posts/${id}`)
-        .then(resp => {
-            setTitle(resp.data.title);
-            setPostDescription(resp.data.description);
-            setPostShortDescription(resp.data.shortDescription);
-            setPostCategory(resp.data.category_id);
-            const tagIds = resp.data.tags.map((tag: { id: number; }) => tag.id);
-            setPostTag(tagIds);
-            setImagesString(resp.data.files);
-        });
+            .then(resp => {
+                setTitle(resp.data.title);
+                setPostDescription(resp.data.description);
+                setPostShortDescription(resp.data.shortDescription);
+                setPostCategory(resp.data.category_id);
+                const tagIds = resp.data.tags.map((tag: { id: number; }) => tag.id);
+                setPostTag(tagIds);
+                setImagesString(resp.data.files);
+            });
     }, [id]);
-    
+
     useEffect(() => {
         load();
     }, []);
@@ -113,6 +113,29 @@ const EditPost = () => {
             setFiles(newFileList);
         }
     };
+    function readFileAsDataURL(file: File): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                // When the file reading is completed, resolve the promise with the result (data URL)
+                if (typeof reader.result === 'string') {
+                    resolve(reader.result);
+                } else {
+                    reject(new Error('Failed to read file as data URL'));
+                }
+            };
+
+            // If there's an error reading the file, reject the promise
+            reader.onerror = () => {
+                reject(reader.error);
+            };
+
+            // Read the file asynchronously as a data URL
+            reader.readAsDataURL(file);
+        });
+    }
+
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         if (!id) {
@@ -125,10 +148,11 @@ const EditPost = () => {
         for (let i = 0; i < files.length; i++) {
             if (!files[i].size) {
                 oldPhotos.push({ name: files[i].name });
-            }
-            else {
-                const base64Content = files[i].thumbUrl?.split(",")[1];
-                newPhotos.push({ name: base64Content });
+            } else {
+                if (files[i].originFileObj) {
+                    const base64Read = await readFileAsDataURL(files[i].originFileObj as File);
+                    newPhotos.push({ name: base64Read.split(",")[1] });
+                }
             }
         }
 
@@ -139,7 +163,7 @@ const EditPost = () => {
             shortDescription: postShortDescription,
             category_id: postCategory,
             tags: postTag,
-            newPhotos: newPhotos, 
+            newPhotos: newPhotos,
             oldPhotos: oldPhotos
         }
         console.log(model);
